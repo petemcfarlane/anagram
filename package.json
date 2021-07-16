@@ -1,0 +1,13 @@
+{
+  "name": "super-awesome",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Pete McFarlane <peterjohnmcfarlane@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.5"
+  }
+}
