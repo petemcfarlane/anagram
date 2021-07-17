@@ -1,4 +1,4 @@
-import { group, print} from "./anagram";
+import { group, print, readWordsOfSameLength } from "./anagram";
 
 test("groups words by their sorted characters (anagram)", () => {
   const words = ['abc', 'foo', 'bca', 'oof', 'cba'];
@@ -20,3 +20,7 @@ foo,oof
 `);
 });
 
+test("reads lines from file input, until reaches longer length line", async () => {
+  const wordsOfSameLength = await readWordsOfSameLength('./Data/example1.txt');
+  expect(wordsOfSameLength).toEqual(['abc', 'fun', 'bac', 'fun', 'cba', 'unf']);
+});
