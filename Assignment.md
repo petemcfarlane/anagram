@@ -54,10 +54,3 @@ abc,bac,cba
 unf,fun
 hello
 
-## Submission Instructions:
-Please wrap your submission into a single zipped file and send it to codechallenge@superawesome.com, as well as ext-joe.rinaldi@superawesome.com.
-
-Any questions - just let us know.
-We can’t wait to see what you can do with this!
-
-SA recruitment team
