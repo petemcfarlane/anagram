@@ -1,6 +1,12 @@
-import { groupByAnagram, stringify, readWordsOfSameLength } from "./anagram";
+import { groupByAnagram, stringify, readWordsOfSameLength, sortWord } from "./anagram";
 
-test("groups words by their sorted characters (anagram)", () => {
+test("sorting a string of letters alphabetically", () => {
+  expect(sortWord("cba")).toEqual("abc");
+  expect(sortWord("acb")).toEqual("abc");
+  expect(sortWord("abc")).toEqual("abc");
+})
+
+test("groups words by their characters, sorted (anagram)", () => {
   const words = ['abc', 'foo', 'bca', 'oof', 'cba'];
 
   expect(groupByAnagram(words)).toStrictEqual({
@@ -9,7 +15,7 @@ test("groups words by their sorted characters (anagram)", () => {
   });
 });
 
-test("outputting grouped words, joined by a comma", () => {
+test("outputs grouped words, joined by a comma, groups separated by new line", () => {
   const groupedWords = {
     'abc': ['abc', 'bca', 'cba'],
     'foo': ['foo', 'oof']

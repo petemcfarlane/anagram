@@ -1,33 +1,7 @@
 import fs from 'fs';
 import readline from 'readline';
 
-const sortWord = (word: string) => Array.from(word).sort((a, b) => a.localeCompare(b)).join("");
-
-export async function* readWordsOfSameLength(path: string) {
-  const input = fs.createReadStream(path);
-  const rl = readline.createInterface({ input });
-
-  let wordsOfSameLength: Array<string> = [];
-  let currentLength: number | undefined;
-
-  for await (const line of rl) {
-    const wordLength = line.length;
-    if (typeof currentLength === 'undefined') {
-      currentLength = wordLength
-      wordsOfSameLength.push(line);
-    } else if (currentLength === wordLength) {
-      wordsOfSameLength.push(line);
-    }
-
-    if (currentLength < wordLength) {
-      const wordsToSend = wordsOfSameLength;
-      wordsOfSameLength = [line];
-      currentLength = wordLength;
-      yield wordsToSend;
-    }
-  }
-  yield wordsOfSameLength;
-}
+export const sortWord = (word: string) => Array.from(word).sort((a, b) => a.localeCompare(b)).join("");
 
 export const groupByAnagram = (words: Array<string>) =>
   words.reduce((acc: Record<string, Array<string>>, word) => {
@@ -42,5 +16,31 @@ export const groupByAnagram = (words: Array<string>) =>
 
 export const stringify = (groupedWords: Record<string, Array<string>>) =>
   Object.entries(groupedWords)
-    .reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '')
-    .trim();
+    .reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '');
+
+export async function* readWordsOfSameLength(path: string) {
+  const input = fs.createReadStream(path);
+  const rl = readline.createInterface({ input });
+
+  let wordsOfSameLength: Array<string> = [];
+  let currentLength: number | undefined;
+
+  for await (const line of rl) {
+    const wordLength = line.length;
+    if (typeof currentLength === 'undefined') {
+      currentLength = wordLength;
+    }
+
+    if (currentLength === wordLength) {
+      wordsOfSameLength.push(line);
+    }
+
+    if (wordLength > currentLength) {
+      const wordsToYield = wordsOfSameLength;
+      wordsOfSameLength = [line];
+      currentLength = wordLength;
+      yield wordsToYield;
+    }
+  }
+  yield wordsOfSameLength;
+}
