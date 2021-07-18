@@ -3,42 +3,30 @@ import readline from 'readline';
 
 const sortWord = (word: string) => word.split('').sort().join('')
 
-export async function readWordsOfSameLength(path: string) {
-  return new Promise((resolve, reject) => {
-    const input = fs.createReadStream(path).on('error', reject);
-    const rl = readline.createInterface({ input });
+export async function* readWordsOfSameLength(path: string) {
+  const input = fs.createReadStream(path);
+  const rl = readline.createInterface({ input });
 
-    let wordsOfSameLength: Array<string> = [];
-    let currentLength: number;
+  let wordsOfSameLength: Array<string> = [];
+  let currentLength: number | undefined;
 
-    const listener = (line: string) => {
-      const wordLength = line.length;
-
-      if (typeof currentLength === 'undefined') {
-        console.log('undef');
-        currentLength = wordLength
-        wordsOfSameLength.push(line);
-        return;
-      }
-
-      if (currentLength === wordLength) {
-        console.log('same');
-
-        wordsOfSameLength.push(line);
-        return;
-      }
-
-      if (currentLength < wordLength) {
-        console.log('lessthan');
-        resolve(wordsOfSameLength);
-        rl.close();
-        rl.removeListener('line', listener);
-      }
+  for await (const line of rl) {
+    const wordLength = line.length;
+    if (typeof currentLength === 'undefined') {
+      currentLength = wordLength
+      wordsOfSameLength.push(line);
+    } else if (currentLength === wordLength) {
+      wordsOfSameLength.push(line);
     }
 
-    rl.addListener('line', listener);
-  });
-
+    if (currentLength < wordLength) {
+      const wordsToSend = wordsOfSameLength;
+      wordsOfSameLength = [line];
+      currentLength = wordLength;
+      yield wordsToSend;
+    }
+  }
+  yield wordsOfSameLength;
 }
 
 export const group = (words: Array<string>) =>

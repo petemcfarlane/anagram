@@ -20,7 +20,15 @@ foo,oof
 `);
 });
 
-test("reads lines from file input, until reaches longer length line", async () => {
-  const wordsOfSameLength = await readWordsOfSameLength('./Data/example1.txt');
-  expect(wordsOfSameLength).toEqual(['abc', 'fun', 'bac', 'fun', 'cba', 'unf']);
+test("reads then yields lines of same length as an array", async () => {
+  const wordsOfSameLength = readWordsOfSameLength('./Data/example3.txt');
+  const groupedWords = [];
+  for await (const words of wordsOfSameLength) {
+    groupedWords.push(words);
+  }
+  expect(groupedWords).toEqual([
+    ['of', 'ab', 'fo'],
+    ['dog', 'god', 'fod'],
+    ['food', 'good', 'oodf'],
+  ])
 });
