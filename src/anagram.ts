@@ -40,6 +40,7 @@ export const group = (words: Array<string>) =>
     return acc;
   }, {});
 
-export const print = (groupedWords: Record<string, Array<string>>) =>
+export const stringify = (groupedWords: Record<string, Array<string>>) =>
   Object.entries(groupedWords)
-    .reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '');
+    .reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '')
+    .trim();
