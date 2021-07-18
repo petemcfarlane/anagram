@@ -4,6 +4,11 @@
   "main": "index.js",
   "author": "Pete McFarlane <peterjohnmcfarlane@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "jest": "^27.0.6",
