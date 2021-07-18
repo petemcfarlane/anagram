@@ -1,9 +1,9 @@
-import { group, stringify, readWordsOfSameLength } from "./anagram";
+import { groupByAnagram, stringify, readWordsOfSameLength } from "./anagram";
 
 test("groups words by their sorted characters (anagram)", () => {
   const words = ['abc', 'foo', 'bca', 'oof', 'cba'];
 
-  expect(group(words)).toStrictEqual({
+  expect(groupByAnagram(words)).toStrictEqual({
     'abc': ['abc', 'bca', 'cba'],
     'foo': ['foo', 'oof']
   });

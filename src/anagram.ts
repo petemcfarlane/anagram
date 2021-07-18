@@ -29,7 +29,7 @@ export async function* readWordsOfSameLength(path: string) {
   yield wordsOfSameLength;
 }
 
-export const group = (words: Array<string>) =>
+export const groupByAnagram = (words: Array<string>) =>
   words.reduce((acc: Record<string, Array<string>>, word) => {
     const sortedWord = sortWord(word);
     if (acc.hasOwnProperty(sortedWord) ) {
