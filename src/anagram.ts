@@ -1,7 +1,7 @@
 import fs from 'fs';
 import readline from 'readline';
 
-const sortWord = (word: string) => word.split('').sort().join('')
+const sortWord = (word: string) => Array.from(word).sort((a, b) => a.localeCompare(b)).join("");
 
 export async function* readWordsOfSameLength(path: string) {
   const input = fs.createReadStream(path);
@@ -32,11 +32,14 @@ export async function* readWordsOfSameLength(path: string) {
 export const group = (words: Array<string>) =>
   words.reduce((acc: Record<string, Array<string>>, word) => {
     const sortedWord = sortWord(word);
-    return {
-      ...acc,
-      [sortedWord]: [...(acc[sortedWord] ?? []), word]
-    };
+    if (acc.hasOwnProperty(sortedWord) ) {
+      acc[sortedWord].push(word)
+    } else {
+      acc[sortedWord] = [word]
+    }
+    return acc;
   }, {});
 
 export const print = (groupedWords: Record<string, Array<string>>) =>
-  Object.entries(groupedWords).reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '');
+  Object.entries(groupedWords)
+    .reduce((acc: string, [_k, words]) => acc + words.join() + "\n", '');
